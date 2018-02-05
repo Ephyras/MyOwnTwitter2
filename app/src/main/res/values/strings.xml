@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MyOwnTwitter2</string>
+    <string name="login_label">Username</string>
+    <string name="pass_label">Password</string>
+    <string name="login_bttn_label">Login</string>
+    <string name="signup_bttn_label">Sign up</string>
+    <string name="email_label">Email</string>
+    <string name="dob_label">Date of Birth</string>
+    <string name="messages_label">Messages</string>
+    <string name="send_bttn">></string>
+    <string name="write_msg">Write a message....</string>
+</resources>
