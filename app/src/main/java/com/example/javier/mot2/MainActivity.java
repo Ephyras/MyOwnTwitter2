@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.pass_field);
         final String password = editText.getText().toString();
 
-        final UserService usrService = ServiceLocator.getUserService(getApplicationContext(), "dao");
+        final UserDao dao = AppDatabase.getAppDB(getApplicationContext()).userDao();
 
         final MainActivity thisAct = this;
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, User>() {
             @Override
             protected User doInBackground(Void... params) {
-                return usrService.getUserByUsername(username);
+                return dao.getUserByUsername(username);
             }
 
             @Override
