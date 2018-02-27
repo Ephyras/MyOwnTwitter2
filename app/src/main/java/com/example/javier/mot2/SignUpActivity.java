@@ -1,6 +1,5 @@
 package com.example.javier.mot2;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,13 +52,13 @@ public class SignUpActivity extends AppCompatActivity {
         newUser.setEmail(email);
         newUser.setDob(dob);
 
-        final UserService usrService = ServiceLocator.getUserService(getApplicationContext(), "dao");
+        final UserDao dao = AppDatabase.getAppDB(getApplicationContext()).userDao();
 
         //Taken from https://stackoverflow.com/questions/44167111/android-room-simple-select-query-cannot-access-database-on-the-main-thread
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                usrService.insertAll(newUser);
+                dao.insertAll(newUser);
                 return null;
             }
         }.execute();

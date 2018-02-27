@@ -9,7 +9,7 @@ import android.arch.persistence.room.Query;
  */
 
 @Dao
-public interface UserDao extends UserService{
+public interface UserDao {
 
     @Query("SELECT * FROM user where username=:username")
     User getUserByUsername(String username);
