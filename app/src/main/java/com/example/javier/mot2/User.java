@@ -9,7 +9,6 @@ import java.util.List;
 
 public class User {
 
-    private Object uid;
     private String email;
     private String dob;
 
@@ -28,6 +27,4 @@ public class User {
     public void setDob(String dob) {
         this.dob = dob;
     }
-
-
 }

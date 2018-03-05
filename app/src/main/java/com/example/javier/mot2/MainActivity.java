@@ -56,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(thisAct, MessagesActivity.class);
-                            intent.putExtra(USERNAME,username);
-                            intent.putExtra(EMAIL,"pending");
-                            intent.putExtra(DOB,"pending");
+                            intent.putExtra(USERNAME,user.getEmail());
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
