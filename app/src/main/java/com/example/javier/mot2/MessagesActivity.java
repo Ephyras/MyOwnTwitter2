@@ -16,9 +16,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class MessagesActivity extends AppCompatActivity {
+
+    private final List<Message> messageList = new ArrayList<>();
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +43,11 @@ public class MessagesActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.dob)).setText(dob);
 
         //Populate the list
-        final MessagesActivity thisAct = this;
         final ListView listView = (ListView) findViewById(R.id.listView);
+        adapter = new MessageListAdapter(this, messageList);
+        listView.setAdapter(adapter);
+        adapter.setNotifyOnChange(true);
+
         final MessageDao dao = AppDatabase.getAppDB(getApplicationContext()).messageDao();
         new AsyncTask<Void, Void, Message[]>() {
             @Override
@@ -48,11 +57,12 @@ public class MessagesActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Message[] messages) {
+
                 if (messages != null) {
-                    listView.setAdapter(new MessageAdapter(thisAct, messages));
-                } else {
-                    listView.setAdapter(new MessageAdapter(thisAct, new Message[]{}));
+                    messageList.addAll(Arrays.asList(messages));
                 }
+
+                listView.setAdapter(new MessageListAdapter(getBaseContext(), messageList));
             }
         }.execute();
     }
@@ -68,7 +78,9 @@ public class MessagesActivity extends AppCompatActivity {
         newMessage.setOwner(username);
         newMessage.setMessage(message);
         newMessage.setPublishedAt(new GregorianCalendar().getTime());
-
+        messageList.add(newMessage);
+        final ListView listView = findViewById(R.id.listView);
+        listView.invalidateViews();
 
         final MessageDao dao = AppDatabase.getAppDB(getApplicationContext()).messageDao();
         new AsyncTask<Void, Void, Void>() {
@@ -83,40 +95,19 @@ public class MessagesActivity extends AppCompatActivity {
                 //Do nothing
             }
         }.execute();
-
-
-        //Populate the list
-        final ListView listView = findViewById(R.id.listView);
-        AsyncTask<Void, Void, Message[]> task = new AsyncTask<Void, Void, Message[]>() {
-            @Override
-            protected Message[] doInBackground(Void... params) {
-                return dao.getMessagesByUsername(username);
-            }
-
-            @Override
-            protected void onPostExecute(Message[] messages) {
-                ((MessageAdapter) listView.getAdapter()).setNewData(messages);
-            }
-        }.execute();
-
-        listView.invalidate();
-
-
     }
-
-
 }
 
 
-class MessageAdapter extends ArrayAdapter<Message> {
+class MessageListAdapter extends ArrayAdapter<Message> {
     private final Context context;
-    private Message[] objects;
+    private List<Message> messages;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(Utils.DATE_FORMAT);
 
-    public MessageAdapter(@NonNull Context context, @NonNull Message[] objects) {
-        super(context, R.layout.list_message, objects);
+    public MessageListAdapter(@NonNull Context context, @NonNull List<Message> messages) {
+        super(context, R.layout.list_message, messages);
         this.context = context;
-        this.objects = objects;
+        this.messages = messages;
     }
 
     @NonNull
@@ -128,14 +119,9 @@ class MessageAdapter extends ArrayAdapter<Message> {
         View rowView = inflater.inflate(R.layout.list_message, parent, false);
         TextView messageView = (TextView) rowView.findViewById(R.id.message_field);
         TextView dateView = (TextView) rowView.findViewById(R.id.date_field);
-        messageView.setText(objects[position].getMessage());
-        dateView.setText(dateFormat.format(objects[position].getPublishedAt()));
+        messageView.setText(messages.get(position).getMessage());
+        dateView.setText(dateFormat.format(messages.get(position).getPublishedAt()));
 
         return rowView;
-    }
-
-    public void setNewData(Message[] objects) {
-        this.objects = objects;
-        notifyDataSetChanged();
     }
 }
