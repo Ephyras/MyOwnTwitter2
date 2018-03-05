@@ -1,5 +1,7 @@
 package com.example.javier.mot2;
 
+import java.util.List;
+
 /**
  * Created by Javier on 2/5/2018.
  */
@@ -7,44 +9,9 @@ package com.example.javier.mot2;
 
 public class User {
 
-
-    private String username;
-
-
-    private byte[] salt;
-
-
-    private String hash;
-
-
+    private Object uid;
     private String email;
-
-
     private String dob;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public byte[] getSalt() {
-        return salt;
-    }
-
-    public void setSalt(byte[] salt) {
-        this.salt = salt;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 
     public String getEmail() {
         return email;
@@ -61,4 +28,6 @@ public class User {
     public void setDob(String dob) {
         this.dob = dob;
     }
+
+
 }

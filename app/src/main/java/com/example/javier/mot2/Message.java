@@ -13,21 +13,11 @@ import java.util.Date;
  * Created by Javier on 2/5/2018.
  */
 
-@Entity
-public class Message {
+class Message {
 
-    @PrimaryKey(autoGenerate = true)
     private int mid;
-
-    @ColumnInfo(name = "owner")
-    @NonNull
-    private String owner;
-
-    @ColumnInfo(name = "message")
+    private Object owner;
     private String message;
-
-    @ColumnInfo(name="postedat")
-    @TypeConverters({TimeStampConverter.class})
     private Date publishedAt;
 
     public int getMid() {
@@ -36,14 +26,6 @@ public class Message {
 
     public void setMid(int mid) {
         this.mid = mid;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public String getMessage() {
@@ -60,5 +42,13 @@ public class Message {
 
     public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public Object getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Object owner) {
+        this.owner = owner;
     }
 }
