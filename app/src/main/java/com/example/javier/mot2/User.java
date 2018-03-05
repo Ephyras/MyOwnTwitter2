@@ -1,33 +1,25 @@
 package com.example.javier.mot2;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
 /**
  * Created by Javier on 2/5/2018.
  */
 
-@Entity
+
 public class User {
 
 
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "username")
     private String username;
 
-    @ColumnInfo(name = "salt", typeAffinity = ColumnInfo.BLOB)
+
     private byte[] salt;
 
-    @ColumnInfo(name = "hash")
+
     private String hash;
 
-    @ColumnInfo(name = "email")
+
     private String email;
 
-    @ColumnInfo(name = "dob")
+
     private String dob;
 
     public String getUsername() {

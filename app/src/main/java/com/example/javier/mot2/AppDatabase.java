@@ -9,9 +9,8 @@ import android.content.Context;
  * Created by Javier on 2/5/2018.
  */
 
-@Database(entities = {User.class, Message.class}, version = 5, exportSchema = false)
+@Database(entities = {Message.class}, version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract UserDao userDao();
     public abstract MessageDao messageDao();
 
     private static AppDatabase _instance;

@@ -13,7 +13,7 @@ import java.util.Date;
  * Created by Javier on 2/5/2018.
  */
 
-@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "username", childColumns = "owner"))
+@Entity
 public class Message {
 
     @PrimaryKey(autoGenerate = true)

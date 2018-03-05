@@ -4,10 +4,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,10 +22,14 @@ public class MainActivity extends AppCompatActivity {
     public static final String EMAIL = "com.example.javier.EMAIL";
     public static final String DOB = "com.example.javier.DOB";
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
 
@@ -35,42 +46,28 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.pass_field);
         final String password = editText.getText().toString();
 
-        final UserDao dao = AppDatabase.getAppDB(getApplicationContext()).userDao();
-
         final MainActivity thisAct = this;
 
-        //Taken from https://stackoverflow.com/questions/44167111/android-room-simple-select-query-cannot-access-database-on-the-main-thread
-        new AsyncTask<Void, Void, User>() {
-            @Override
-            protected User doInBackground(Void... params) {
-                return dao.getUserByUsername(username);
-            }
+        mAuth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(thisAct, MessagesActivity.class);
+                            intent.putExtra(USERNAME,username);
+                            intent.putExtra(EMAIL,"pending");
+                            intent.putExtra(DOB,"pending");
+                            startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            showError();
+                        }
 
-            @Override
-            protected void onPostExecute(User possibleUser) {
-                if (possibleUser == null) {
-                    showError();
-
-                } else {
-
-                    byte[] salt = possibleUser.getSalt();
-                    String storedHash = possibleUser.getHash();
-
-                    String otherHash = Utils.getSecurePassword(password, salt);
-
-                    if (storedHash.equals(otherHash)) {
-                        Intent intent = new Intent(thisAct, MessagesActivity.class);
-                        intent.putExtra(USERNAME,username);
-                        intent.putExtra(EMAIL,possibleUser.getEmail());
-                        intent.putExtra(DOB,possibleUser.getDob());
-                        startActivity(intent);
-                    } else {
-                        showError();
+                        // ...
                     }
-                }
-            }
-        }.execute();
-
+                });
 
     }
 
