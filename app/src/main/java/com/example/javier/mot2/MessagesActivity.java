@@ -72,7 +72,7 @@ public class MessagesActivity extends AppCompatActivity {
         adapter = new MessageListAdapter(this, messageList);
         listView.setAdapter(adapter);
 
-        mDatabase.orderByChild("publishedAt").limitToFirst(100).addValueEventListener(new ValueEventListener() {
+        mDatabase.orderByChild("publishedAt").limitToLast(100).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 messageList.clear();
