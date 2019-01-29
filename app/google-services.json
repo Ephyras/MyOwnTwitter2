@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "393721118497",
+    "firebase_url": "https://cen4020-920bf.firebaseio.com",
+    "project_id": "cen4020-920bf",
+    "storage_bucket": "cen4020-920bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393721118497:android:71e3bd7a4de6bb7d",
+        "android_client_info": {
+          "package_name": "com.example.javier.mot2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393721118497-b8kfd1e188v1cavej8eoric9g5r9fnuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUbYx_NHkPXZcBiy4sHqrbCMJUKDIGRBA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
