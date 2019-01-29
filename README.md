@@ -11,7 +11,7 @@ To make this version work, you need to add your own google-services.json file to
 
 Persistence for Users and Messages is implemented with Room (https://developer.android.com/topic/libraries/architecture/room.html) so there is no "message sharing" yet. However, this is still a good example of how implement data persistence with Room (and SQLite)
 
-** Mater branch:**
+** Master branch:**
 Currently receives patches from the firebase branch.
 
 Known issues:
